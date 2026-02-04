@@ -6,33 +6,32 @@ import { useSunLightDirection } from "../../hooks/useSunLightDirection";
 import { useOrbit } from "../../hooks/useOrbit";
 import { useCameraFocus } from "../../hooks/useCameraFocus";
 
-type EarthProps = {
+type UranusProps = {
   isFocused?: boolean;
 };
 
-export const Earth = ({ isFocused = false }: EarthProps) => {
+export const Uranus = ({ isFocused = false }: UranusProps) => {
   const groupRef = useRef<Group>(null);
   const meshRef = useRef<Mesh>(null);
-  const [earthTexture, normalMap] = useTexture([
-    "/src/assets/uv-maps/earth-uv/earth-day.jpg",
-    "/src/assets/uv-maps/earth-uv/earth-normal.png",
+  const [uranusTexture] = useTexture([
+    "/src/assets/uv-maps/uranus-uv/uranus.jpg",
   ]);
 
-  useOrbit(groupRef, 10, 0.5);
+  useOrbit(groupRef, 34, 0.1);
   useSunLightDirection(meshRef);
   useCameraFocus(meshRef, isFocused);
 
   return (
     <group ref={groupRef}>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[1, 32, 32]} />
+        <sphereGeometry args={[1.2, 48, 48]} />
         <primitive
           object={new PlanetMaterial()}
           attach="material"
-          dayTexture={earthTexture}
-          normalMap={normalMap}
-          sunIntensity={1.5}
-          nightDarkness={0.05}
+          dayTexture={uranusTexture}
+          normalMap={uranusTexture}
+          sunIntensity={0.3}
+          nightDarkness={0.03}
         />
       </mesh>
     </group>
