@@ -1,31 +1,14 @@
 import { useState } from "react";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { setSelectedPlanet } from "../store/slices/planets/planetSlice";
+import { sphereData, SPHERES } from "../spheres/data";
 
-type Planet = {
-  name: string;
-  key: string;
-};
-
-const planets: Planet[] = [
-  { name: "Sun", key: "sun" },
-  { name: "Mercury", key: "mercury" },
-  { name: "Venus", key: "venus" },
-  { name: "Earth", key: "earth" },
-  { name: "Mars", key: "mars" },
-  { name: "Jupiter", key: "jupiter" },
-  { name: "Saturn", key: "saturn" },
-  { name: "Uranus", key: "uranus" },
-  { name: "Neptune", key: "neptune" },
-];
-
-type PlanetSelectorProps = {
-  selectedPlanet: string;
-  onSelectPlanet: (planet: string) => void;
-};
-
-export const PlanetSelector = ({
-  selectedPlanet,
-  onSelectPlanet,
-}: PlanetSelectorProps) => {
+export const PlanetSelector = () => {
+  const selectedPlanetId = useAppSelector(
+    (state) => state.planet.selectedPlanetId,
+  );
+  const SUN_ID = useAppSelector((state) => state.planet.sundId);
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -52,7 +35,12 @@ export const PlanetSelector = ({
           backdropFilter: "blur(10px)",
         }}
       >
-        Focus: {planets.find((p) => p.key === selectedPlanet)?.name || "Sun"} ▼
+        Focus:{" "}
+        {selectedPlanetId === SUN_ID
+          ? SPHERES.SUN
+          : sphereData.find((s) => s.id === selectedPlanetId)?.title ||
+            "Sun"}{" "}
+        ▼
       </button>
 
       {isOpen && (
@@ -66,11 +54,46 @@ export const PlanetSelector = ({
             backdropFilter: "blur(10px)",
           }}
         >
-          {planets.map((planet) => (
+          <button
+            key={SUN_ID}
+            onClick={() => {
+              dispatch(setSelectedPlanet(SUN_ID));
+              setIsOpen(false);
+            }}
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "10px 20px",
+              backgroundColor:
+                selectedPlanetId === SUN_ID
+                  ? "rgba(255, 255, 255, 0.2)"
+                  : "transparent",
+              color: "white",
+              border: "none",
+              textAlign: "left",
+              cursor: "pointer",
+              fontSize: "14px",
+              transition: "background-color 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              if (selectedPlanetId !== SUN_ID) {
+                e.currentTarget.style.backgroundColor =
+                  "rgba(255, 255, 255, 0.1)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (selectedPlanetId !== SUN_ID) {
+                e.currentTarget.style.backgroundColor = "transparent";
+              }
+            }}
+          >
+            {SPHERES.SUN}
+          </button>
+          {sphereData.map((sphere) => (
             <button
-              key={planet.key}
+              key={sphere.id}
               onClick={() => {
-                onSelectPlanet(planet.key);
+                dispatch(setSelectedPlanet(sphere.id));
                 setIsOpen(false);
               }}
               style={{
@@ -78,7 +101,7 @@ export const PlanetSelector = ({
                 width: "100%",
                 padding: "10px 20px",
                 backgroundColor:
-                  selectedPlanet === planet.key
+                  selectedPlanetId === sphere.id
                     ? "rgba(255, 255, 255, 0.2)"
                     : "transparent",
                 color: "white",
@@ -89,18 +112,18 @@ export const PlanetSelector = ({
                 transition: "background-color 0.2s",
               }}
               onMouseEnter={(e) => {
-                if (selectedPlanet !== planet.key) {
+                if (selectedPlanetId !== sphere.id) {
                   e.currentTarget.style.backgroundColor =
                     "rgba(255, 255, 255, 0.1)";
                 }
               }}
               onMouseLeave={(e) => {
-                if (selectedPlanet !== planet.key) {
+                if (selectedPlanetId !== sphere.id) {
                   e.currentTarget.style.backgroundColor = "transparent";
                 }
               }}
             >
-              {planet.name}
+              {sphere.title}
             </button>
           ))}
         </div>
