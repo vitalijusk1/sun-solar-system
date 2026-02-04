@@ -2,27 +2,21 @@ import "./App.css";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { Sun } from "./spheres/sun/sun";
-import { Mercury } from "./spheres/mercury/mercury";
-import { Venus } from "./spheres/venus/venus";
-import { Earth } from "./spheres/earth/earth";
-import { Mars } from "./spheres/mars/mars";
-import { Jupiter } from "./spheres/jupiter/jupiter";
-import { Saturn } from "./spheres/saturn/saturn";
-import { Uranus } from "./spheres/uranus/uranus";
-import { Neptune } from "./spheres/neptune/neptune";
+import { Spheres } from "./spheres/spheres";
 import { PlanetSelector } from "./components/PlanetSelector";
-import { useState } from "react";
+import { Sun } from "./spheres/sun/sun";
+import { useAppSelector } from "./store/hooks";
+
+const SUN_ID = -1;
 
 function App() {
-  const [selectedPlanet, setSelectedPlanet] = useState("sun");
-
+  const selectedPlanetId = useAppSelector(
+    (state) => state.planet.selectedPlanetId,
+  );
+  console.log(selectedPlanetId, "SELECTED PLANET ID");
   return (
     <>
-      <PlanetSelector
-        selectedPlanet={selectedPlanet}
-        onSelectPlanet={setSelectedPlanet}
-      />
+      <PlanetSelector />
       <Canvas camera={{ position: [0, 0, 5] }} shadows>
         <ambientLight intensity={0.01} />
         <Stars
@@ -42,16 +36,9 @@ function App() {
           color="orange"
           castShadow
         />
-        <Sun isFocused={selectedPlanet === "sun"} />
-        <Mercury isFocused={selectedPlanet === "mercury"} />
-        <Venus isFocused={selectedPlanet === "venus"} />
-        <Earth isFocused={selectedPlanet === "earth"} />
-        <Mars isFocused={selectedPlanet === "mars"} />
-        <Jupiter isFocused={selectedPlanet === "jupiter"} />
-        <Saturn isFocused={selectedPlanet === "saturn"} />
-        <Uranus isFocused={selectedPlanet === "uranus"} />
-        <Neptune isFocused={selectedPlanet === "neptune"} />
-        <OrbitControls />
+        <Sun isFocused={selectedPlanetId === SUN_ID} />
+        <Spheres />
+        <OrbitControls enableDamping dampingFactor={0.05} makeDefault />
         <EffectComposer>
           <Bloom
             intensity={1.5}
