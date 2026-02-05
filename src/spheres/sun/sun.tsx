@@ -15,7 +15,7 @@ export const Sun = ({ isFocused = false }: SunProps) => {
 
   return (
     <mesh ref={meshRef} castShadow>
-      <sphereGeometry args={[2, 32, 32]} />
+      <sphereGeometry args={[3.5, 32, 32]} />
       <meshPhongMaterial
         map={texture}
         emissive="orange"

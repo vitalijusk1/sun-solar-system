@@ -11,6 +11,7 @@ interface SphereProps {
   title: string;
   orbitRadius: number;
   orbitSpeed: number;
+  initialAngle?: number;
   rotationSpeed: number;
   texture: string;
   sphereArgs: [number, number?, number?];
@@ -22,6 +23,7 @@ interface SphereProps {
 export const Sphere = ({
   orbitRadius,
   orbitSpeed,
+  initialAngle,
   rotationSpeed,
   texture,
   sphereArgs,
@@ -33,7 +35,7 @@ export const Sphere = ({
   const meshRef = useRef<Mesh>(null);
   const [loadedTexture] = useTexture([texture]);
 
-  useOrbit(groupRef, orbitRadius, orbitSpeed);
+  useOrbit(groupRef, orbitRadius, orbitSpeed, initialAngle);
   useRotation(meshRef, rotationSpeed);
   useSunLightDirection(meshRef);
   useCentralizedCameraFocus(groupRef, isFocused);

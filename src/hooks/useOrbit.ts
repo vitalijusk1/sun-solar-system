@@ -6,13 +6,14 @@ export const useOrbit = (
   groupRef: MutableRefObject<Group | null>,
   orbitRadius: number,
   orbitSpeed: number,
+  initialAngle = 0,
 ) => {
   useFrame((state) => {
     const group = groupRef.current;
     if (!group) return;
 
     const time = state.clock.getElapsedTime();
-    const angle = time * orbitSpeed;
+    const angle = time * orbitSpeed + initialAngle;
 
     group.position.x = Math.cos(angle) * orbitRadius;
     group.position.z = Math.sin(angle) * orbitRadius;
