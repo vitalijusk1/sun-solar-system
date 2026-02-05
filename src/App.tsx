@@ -3,7 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { Spheres } from "./spheres/spheres";
-import { PlanetSelector } from "./components/PlanetSelector";
+import { PlanetSelector } from "./components/PlanetSelector/PlanetSelector";
+import { PlanetFactsModal } from "./components/PlanetFactsModal/PlanetFactsModal";
 import { Sun } from "./spheres/sun/sun";
 import { useAppSelector } from "./store/hooks";
 
@@ -17,6 +18,7 @@ function App() {
   return (
     <>
       <PlanetSelector />
+      <PlanetFactsModal />
       <Canvas camera={{ position: [0, 0, 5] }} shadows>
         <ambientLight intensity={0.01} />
         <Stars

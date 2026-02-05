@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { setSelectedPlanet } from "../store/slices/planets/planetSlice";
-import { sphereData, SPHERES } from "../spheres/data";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { setSelectedPlanet } from "../../store/slices/planets/planetSlice";
+import { sphereData, SPHERES } from "../../spheres/data";
 
 export const PlanetSelector = () => {
   const selectedPlanetId = useAppSelector(
