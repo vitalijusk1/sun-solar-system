@@ -9,7 +9,9 @@ type SunProps = {
 
 export const Sun = ({ isFocused = false }: SunProps) => {
   const meshRef = useRef<Mesh>(null);
-  const [texture] = useTexture(["/src/assets/uv-maps/sun-uv/sun.jpg"]);
+  const [texture] = useTexture([
+    new URL("../../assets/uv-maps/sun-uv/sun.jpg", import.meta.url).href,
+  ]);
 
   useCentralizedCameraFocus(meshRef, isFocused);
 
